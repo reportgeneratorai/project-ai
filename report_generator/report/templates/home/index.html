@@ -4,297 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Microproject Report Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 
     <style>
-        :root {
-            --main-color: #ecf0f1;
-            --point-color: #555;
-            --size: 8px;
-            --primary-color: #007bff;
-            --secondary-color: #0056b3;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa, #ececec);
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 600px;
-            padding: 30px;
-            background: #fff;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .container h1 {
-            font-size: 2.2em;
-            margin-bottom: 20px;
-            color: var(--primary-color);
-        }
-
-        .container p {
-            font-size: 1em;
-            color: #666;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        label {
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        input {
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 30px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
-        }
-
-        button {
-            padding: 12px 20px;
-            background-color: var(--primary-color);
-            color: #fff;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            background-color: var(--secondary-color);
-            box-shadow: 0 8px 20px rgba(0, 86, 179, 0.4);
-        }
-
-        .download-button {
-            padding: 12px 20px;
-            background-color: var(--primary-color);
-            color: #fff;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            margin-top: 20px;
-            display: none;
-            
-            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
-        }
-
-        .loader {
-            
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            z-index: 100000;
-            background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-            cursor: pointer; /* Add a pointer on hover */
 
 
 
 
-        }
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
 
-        .loader__element {
-            border-radius: 100%;
-            border: var(--size) solid #fff;
-            margin: calc(var(--size) * 2);
-        }
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
 
-        .loader__element:nth-child(1) {
-            animation: preloader .6s ease-in-out alternate infinite;
-        }
+h1 {
+    margin-bottom: 20px;
+}
 
-        .loader__element:nth-child(2) {
-            animation: preloader .6s ease-in-out alternate .2s infinite;
-        }
+form {
+    display: flex;
+    flex-direction: column;
+}
 
-        .loader__element:nth-child(3) {
-            animation: preloader .6s ease-in-out alternate .4s infinite;
-        }
+label {
+    margin-bottom: 10px;
+}
 
-        @keyframes preloader {
-            100% { transform: scale(2); }
-        }
+input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-        .loader-text {
-            text-align: center;
-            margin-top: 20px;
-            color: #fff;
-        }
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
-        .loader-text h1, .loader-text h3 {
-            margin: 0;
-        }
-        .background-animation {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
+button:hover {
+    background-color: #0056b3;
+}
 
-        .background-animation span {
-            position: absolute;
-            display: block;
-            width: 20px;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            animation: animate 25s linear infinite;
-        }
+a{
+    padding: 10px 15px;
+    width: 100px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 235px;
+}
 
-        @keyframes animate {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-1000px) rotate(720deg);
-                opacity: 0;
-            }
-        }
 
-        .background-animation span:nth-child(1) {
-            left: 10%;
-            animation-delay: 0s;
-        }
-        .background-animation span:nth-child(2) {
-            left: 20%;
-            animation-delay: 2s;
-        }
-        .background-animation span:nth-child(3) {
-            left: 25%;
-            animation-delay: 4s;
-        }
-        .background-animation span:nth-child(4) {
-            left: 40%;
-            animation-delay: 0s;
-        }
-        .background-animation span:nth-child(5) {
-            left: 55%;
-            animation-delay: 2s;
-        }
-        .background-animation span:nth-child(6) {
-            left: 70%;
-            animation-delay: 4s;
-        }
-        .background-animation span:nth-child(7) {
-            left: 80%;
-            animation-delay: 0s;
-        }
-        .background-animation span:nth-child(8) {
-            left: 90%;
-            animation-delay: 2s;
-        }
-        .background-animation span:nth-child(9) {
-            left: 95%;
-            animation-delay: 4s;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .divider {
-            width: 80%;
-            height: 1px;
-            background-color: #ccc;
-            margin: 20px auto;
-        }
 
     </style>
+
 </head>
 <body>
+    
+
     <div class="container">
-        <h1>Microproject Report Generator</h1>
-        <p>Generate your reports quickly and easily.</p>
-        <form method="post" action="{% url 'home' %}" onsubmit="showLoading()">
-            {% csrf_token %}
-            <label for="title">Enter Title or Topic:</label>
-            <input type="text" id="title" placeholder="Type your Topic" name="prompt" required>
-            <button type="submit">Generate Report</button>
-        </form>
+    <h1>Microproject Report Generator</h1>
+    <form method="post" action="{% url 'home' %}">
+        {% csrf_token %}
+        <label for="title">Enter Title or Topic:</label>
+        <input type="text" id="title" placeholder="Type your Topic" name="prompt" required>
+        <button type="submit">Generate Report</button>
+    </form>
 
-        <div id="download-message" style="display: none;">
-            <h3>Your report is ready!</h3>
-            <p>Click the button below to download your report.</p>
-        </div>
+    {% if file_url %}
+        <a href="{{ file_url }}" download><button>Download</button></a>
+    {% endif %}
 
-        <a href="{{ file_url }}" download class="download-button" id="download-button">Download</a>
-    </div>
 
-    <div class="loader" id="loader">
-        <div class="background-animation">
-            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <div style="display: flex; flex-direction: row;">
-            <span class="loader__element"></span>
-            <span class="loader__element"></span>
-            <span class="loader__element"></span>
-        </div>
-        <div class="loader-text">
-            <h1>Just a moment</h1>
-            <h3>We are working at the speed of light</h3>
-        </div>
-    </div>
-
-    <script>
-        function showLoading() {
-            localStorage.setItem('formSubmitted', 'true');
-            document.getElementById('loader').style.display = 'flex';
-        }
-
-        window.onload = function() {
-            var fileUrl = "{{ file_url }}";
-            var formSubmitted = localStorage.getItem('formSubmitted');
-            if (fileUrl && formSubmitted === 'true') {
-                var downloadButton = document.getElementById('download-button');
-                var downloadMessage = document.getElementById('download-message');
-                downloadButton.style.display = 'block';
-                downloadMessage.style.display = 'block';
-                document.getElementById('loader').style.display = 'none';
-                localStorage.removeItem('formSubmitted');
-            }
-        }
-    </script>
+</div>
+    
+    
 </body>
 </html>
+
+
