@@ -21,7 +21,8 @@ from bs4 import BeautifulSoup
 
 def home(request):
     if request.method == 'POST':
-        prompt_input = request.POST.get('prompt')
+        p_i = request.POST.get('prompt')
+        prompt_input = p_i.lower()
         load_dotenv()
 
         # Initialize Gemini API
@@ -30,7 +31,7 @@ def home(request):
             "temperature": 1,
             "top_p": 0.95,
             "top_k": 64,
-            "max_output_tokens": 4000,
+            "max_output_tokens": 200,
             "response_mime_type": "text/plain",
         }
         model = genai.GenerativeModel(
@@ -43,7 +44,7 @@ def home(request):
             document = Document()
 
             # Title
-            title_heading = document.add_heading(title, level=1)
+            title_heading = document.add_heading(title.capitalize(), level=1)
             title_heading.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
             # Content from Gemini API
@@ -77,31 +78,53 @@ def home(request):
                 print(f"Error fetching content: {e}")
             return "No content available for this topic."
 
+
         def process_content(document, content):
             paragraphs = []
             lines = content.split('\n')
             for line in lines:
                 line = line.strip()
-                if line.startswith("## "):
-                    heading = document.add_heading(line[3:], level=1)
+
+                if line.startswith("# "):
+                    heading = document.add_heading(line[2:], level=1)
                     for run in heading.runs:
                         run.font.size = Pt(18)
                         run.font.name = 'Arial'
-                elif line.startswith("### "):
-                    heading = document.add_heading(line[4:], level=2)
+                elif line.startswith("## "):
+                    heading = document.add_heading(line[3:], level=2)
                     for run in heading.runs:
                         run.font.size = Pt(16)
                         run.font.name = 'Arial'
-                elif line.startswith("* "):
-                    heading = document.add_heading(line[2:], level=3)
+                elif line.startswith("### "):
+                    heading = document.add_heading(line[4:], level=3)
                     for run in heading.runs:
                         run.font.size = Pt(14)
                         run.font.name = 'Arial'
+
+                elif line.startswith("#### "):
+                    heading = document.add_heading(line[5:], level=3)
+                    for run in heading.runs:
+                        run.font.size = Pt(12)
+                        run.font.name = 'Arial'
+
+                elif line.startswith("* "):
+                    p = document.add_paragraph(line[2:].replace("*", ""), style='ListBullet')
+                    paragraphs.append(p)
+                elif line.startswith("• "):  # Handling bullet points
+                    p = document.add_paragraph(style='ListBullet')
+                    parts = line[2:].split("**")
+                    for i, part in enumerate(parts):
+                        run = p.add_run(part.replace("*", ""))
+                        if i % 2 == 1:
+                            run.bold = True
+                        run.font.size = Pt(12)
+                        run.font.name = 'Arial'
+                    paragraphs.append(p)
                 else:
                     p = document.add_paragraph()
                     parts = line.split("**")
                     for i, part in enumerate(parts):
-                        run = p.add_run(part)
+                        run = p.add_run(part.replace("*", ""))
                         if i % 2 == 1:
                             run.bold = True
                         run.font.size = Pt(12)
